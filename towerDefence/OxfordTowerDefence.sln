@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxford-Tower-Defence", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpellCheckTestApp", "..\SpellCheckTestApp\SpellCheckTestApp.csproj", "{6021B293-6107-4327-8D4E-5FDB5033EF86}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterTeachesTyping", "..\TwitterTeachesTyping\TwitterTeachesTyping.csproj", "{44A51516-A9A2-4195-B30A-86BCCC291BE6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -25,6 +27,10 @@ Global
 		{6021B293-6107-4327-8D4E-5FDB5033EF86}.Debug|x86.Build.0 = Debug|x86
 		{6021B293-6107-4327-8D4E-5FDB5033EF86}.Release|x86.ActiveCfg = Release|x86
 		{6021B293-6107-4327-8D4E-5FDB5033EF86}.Release|x86.Build.0 = Release|x86
+		{44A51516-A9A2-4195-B30A-86BCCC291BE6}.Debug|x86.ActiveCfg = Debug|x86
+		{44A51516-A9A2-4195-B30A-86BCCC291BE6}.Debug|x86.Build.0 = Debug|x86
+		{44A51516-A9A2-4195-B30A-86BCCC291BE6}.Release|x86.ActiveCfg = Release|x86
+		{44A51516-A9A2-4195-B30A-86BCCC291BE6}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
