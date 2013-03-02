@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterTestApp", "TwitterTestApp.csproj", "{55768A31-42DB-4376-9401-C7E93235F880}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oxford-Tower-Defence", "..\Oxford-Tower-Defence\Oxford-Tower-Defence.csproj", "{3E274DF8-7C6B-4C04-9D71-978345196F96}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{55768A31-42DB-4376-9401-C7E93235F880}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55768A31-42DB-4376-9401-C7E93235F880}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55768A31-42DB-4376-9401-C7E93235F880}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E274DF8-7C6B-4C04-9D71-978345196F96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E274DF8-7C6B-4C04-9D71-978345196F96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E274DF8-7C6B-4C04-9D71-978345196F96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E274DF8-7C6B-4C04-9D71-978345196F96}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
