@@ -4,16 +4,25 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NHunspell;
 
 namespace towerDefence
 {
-    class Program
+    static class Program
     {
         private static TwitterStream inStream;
+        private static SpellChecker spellChecker;
 
         static void Main(string[] args)
         {
+            spellChecker = SetupSpellChecker();
             inStream = SetupTwitterStream();
+        }
+
+        private static SpellChecker SetupSpellChecker()
+        {
+            var hunspell = new Hunspell("en_GB-oed.aff", "en_GB-oed.dic");
+            return new SpellChecker(hunspell);
         }
 
         private static TwitterStream SetupTwitterStream()
@@ -29,7 +38,15 @@ namespace towerDefence
 
         private static void HandleTweet(Status status)
         {
-            Console.WriteLine(status.text);
+            AnalysedSentence analysed = spellChecker.CheckSentence(status.text);
+            if (analysed.IsValid && analysed.HasMisspelling)
+            {
+                if (analysed.StupidityPercentage > 50)
+                {
+                    Console.WriteLine(analysed);
+                }
+                
+            }
         }
     }
 }
