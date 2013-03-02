@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading;
 
-namespace towerDefence
+namespace AnalysisLibs
 {
     public class TwitterStream
     {
         private readonly string username;
         private readonly string password;
-        string stream_url = ConfigurationManager.AppSettings["stream_url"];
+        private readonly string stream_url;
         HttpWebRequest webRequest = null;
         HttpWebResponse webResponse = null;
         StreamReader responseStream = null;
@@ -23,8 +20,9 @@ namespace towerDefence
 
         private TweetHandler handler;
 
-        public TwitterStream(string username, string password, TweetHandler tweetHandler)
+        public TwitterStream(string streamURL, string username, string password, TweetHandler tweetHandler)
         {
+            this.stream_url = streamURL;
             this.username = username;
             this.password = password;
             this.handler = tweetHandler;

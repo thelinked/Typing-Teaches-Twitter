@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AnalysisLibs;
 using NHunspell;
 
 namespace towerDefence
@@ -17,9 +19,10 @@ namespace towerDefence
 
         static void Main(string[] args)
         {
+            string stream_url = ConfigurationManager.AppSettings["stream_url"];
             csvWriter = new StreamWriter(@"C:\Temp\twitterlog.csv");
             spellChecker = SetupSpellChecker();
-            inStream = SetupTwitterStream();
+            inStream = SetupTwitterStream(stream_url, new[] { "#BeliebersHatePaparazzi" });
         }
 
         private static SpellChecker SetupSpellChecker()
@@ -28,14 +31,13 @@ namespace towerDefence
             return new SpellChecker(hunspell);
         }
 
-        private static TwitterStream SetupTwitterStream()
+        private static TwitterStream SetupTwitterStream(string url, string[] toTrack)
         {
-            var tagsToTrack = new[] { "#BeliebersHatePaparazzi" };
             var language = "en";
             var user = "oxfordDefence";
             var pass = "oxfordTowerDefence";
-            var stream = new TwitterStream(user, pass, HandleTweet);
-            stream.Stream(tagsToTrack,language);
+            var stream = new TwitterStream(url, user, pass, HandleTweet);
+            stream.Stream(toTrack,language);
             return stream;
         }
 
