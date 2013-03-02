@@ -8,16 +8,20 @@ namespace towerDefence
 {
     public class AnalysedSentence
     {
-        public IEnumerable<AnalysedWord> Words { get; private set; }
-        public string Original { get; private set; }
-        public bool HasMisspelling { get; private set; }
-        public double StupidityPercentage { get; private set; }
         public bool IsValid { get; private set; }
-        public double Attage { get; private set; }
-        public double Linkyness { get; private set; }
-        public double HashQuotient { get; private set; }
-        public double WordCount { get; private set; }
+        public IEnumerable<AnalysedWord> Words { get; private set; }
 
+        public string Original { get; set; }
+        public double StupidityPercentage { get; set; }
+        public double Attage { get; set; }
+        public double Linkyness { get; set; }
+        public double HashQuotient { get; set; }
+        public double WordCount { get; set; }
+        public bool HasMisspelling { get; private set; }
+
+        public AnalysedSentence()
+        {
+        }
         public AnalysedSentence(string original, IEnumerable<AnalysedWord> words, double attage, double linkyness, double hashQuotient)
         {
             this.Attage = attage;
