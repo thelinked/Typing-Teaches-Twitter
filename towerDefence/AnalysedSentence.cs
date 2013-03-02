@@ -13,20 +13,27 @@ namespace towerDefence
         public bool HasMisspelling { get; private set; }
         public double StupidityPercentage { get; private set; }
         public bool IsValid { get; private set; }
+        public double Attage { get; private set; }
+        public double Linkyness { get; private set; }
+        public double HashQuotient { get; private set; }
+        public double WordCount { get; private set; }
 
-        public AnalysedSentence(string original, IEnumerable<AnalysedWord> words)
+        public AnalysedSentence(string original, IEnumerable<AnalysedWord> words, double attage, double linkyness, double hashQuotient)
         {
+            this.Attage = attage;
+            this.HashQuotient = hashQuotient;
+            this.Linkyness = linkyness;
             IsValid = true;
             this.Original = original;
             this.Words = words;
             HasMisspelling = words.Any(a => !a.Correct);
-            int wordCount = words.Count();
-            if (wordCount == 0)
+            WordCount = words.Count();
+            if (WordCount == 0)
             {
                 IsValid = false;
             }
             int misSpellingCount = words.Count(a => !a.Correct);
-            StupidityPercentage = Math.Round((double)misSpellingCount / ((double)wordCount) * 100.0);
+            StupidityPercentage = Math.Round((double)misSpellingCount / ((double)WordCount) * 100.0);
         }
 
         public override string ToString()
@@ -36,8 +43,16 @@ namespace towerDefence
             {
                 sentence += analysedWord.Word + " ";
             }
-            sentence += " stupidity:" + Math.Round(StupidityPercentage, 0);
+            sentence += " stupidity:" + Math.Round(StupidityPercentage);
+            sentence += " attage:" + Math.Round(Attage);
+            sentence += " hashQuotient:" + Math.Round(HashQuotient);
+            sentence += " linkyness:" + Math.Round(Linkyness);
             return sentence;
+        }
+
+        public string ToCSV()
+        {
+            return WordCount+","+StupidityPercentage+","+Attage+","+Linkyness+"," + HashQuotient;
         }
     }
 }

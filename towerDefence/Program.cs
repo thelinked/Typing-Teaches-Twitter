@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,9 +13,11 @@ namespace towerDefence
     {
         private static TwitterStream inStream;
         private static SpellChecker spellChecker;
+        private static TextWriter csvWriter;
 
         static void Main(string[] args)
         {
+            csvWriter = new StreamWriter(@"C:\Temp\twitterlog.csv");
             spellChecker = SetupSpellChecker();
             inStream = SetupTwitterStream();
         }
@@ -27,7 +30,7 @@ namespace towerDefence
 
         private static TwitterStream SetupTwitterStream()
         {
-            var tagsToTrack = new[] { "#fail,#BeliebersHatePaparazzi" };
+            var tagsToTrack = new[] { "#BeliebersHatePaparazzi" };
             var language = "en";
             var user = "oxfordDefence";
             var pass = "oxfordTowerDefence";
@@ -39,13 +42,11 @@ namespace towerDefence
         private static void HandleTweet(Status status)
         {
             AnalysedSentence analysed = spellChecker.CheckSentence(status.text);
-            if (analysed.IsValid && analysed.HasMisspelling)
+            if (analysed.IsValid)
             {
-                if (analysed.StupidityPercentage > 50)
-                {
-                    Console.WriteLine(analysed);
-                }
-                
+                Console.WriteLine(analysed);
+                csvWriter.WriteLine(analysed.ToCSV());
+                csvWriter.Flush();
             }
         }
     }

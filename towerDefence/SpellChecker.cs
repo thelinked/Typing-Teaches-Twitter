@@ -19,19 +19,41 @@ namespace towerDefence
 
         private double MeasureAttagePercentage(string tweet)
         {
-            var mentions = tweet.Split('@');
+            Regex rgx = new Regex(@"@\w+");
 
-            return 0.0;
+            int length = 0;
+            foreach (var match in rgx.Matches(tweet))
+            {
+                length += match.ToString().Length;
+            }
+            
+            return ((double)length)/((double)tweet.Length)*100.0;
         }
 
         private double MeasureHashQuotientPercentage(string tweet)
         {
-            return 0.0;
+            Regex rgx = new Regex(@"#\w+");
+
+            int length = 0;
+            foreach (var match in rgx.Matches(tweet))
+            {
+                length += match.ToString().Length;
+            }
+
+            return ((double)length) / ((double)tweet.Length) * 100.0;
         }
 
         private double MeasureLinkiness(string tweet)
         {
-            return 0.0;
+            Regex rgx = new Regex(@"http://t.co/\w+");
+
+            int length = 0;
+            foreach (var match in rgx.Matches(tweet))
+            {
+                length += match.ToString().Length;
+            }
+
+            return ((double)length) / ((double)tweet.Length) * 100.0;
         }
 
         public AnalysedSentence CheckSentence(string tweet)
@@ -78,7 +100,7 @@ namespace towerDefence
                 var analysedWord = new AnalysedWord() {Correct = correct, Suggestions = suggestions,Word = realWord};
                 analysedWords.Add(analysedWord);
             }
-            return new AnalysedSentence(tweet,analysedWords);
+            return new AnalysedSentence(tweet,analysedWords,attage,linkiness,hashQuotient);
         }
 
         private bool CheckWord(string word, out List<string> suggestions)
