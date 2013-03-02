@@ -42,6 +42,7 @@
       <HintPath>..\packages\NHunspell.1.0.0\lib\net\NHunspell.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />

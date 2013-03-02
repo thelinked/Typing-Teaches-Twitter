@@ -17,19 +17,22 @@ namespace AnalysisLibs
         StreamReader responseStream = null;
         DataContractJsonSerializer json = new DataContractJsonSerializer(typeof(Status));
         public delegate void TweetHandler(Status s);
+        private string language;
 
         private TweetHandler handler;
 
-        public TwitterStream(string streamURL, string username, string password, TweetHandler tweetHandler)
+        public TwitterStream(string streamURL, string username, string password, TweetHandler tweetHandler, string language)
         {
             this.stream_url = streamURL;
             this.username = username;
             this.password = password;
             this.handler = tweetHandler;
+            this.language = language;
         }
 
-        public void Stream(string[] tags, string filterLanguage)
+        public void Stream(Object param)
         {
+            string[] tags = param as string[];
             string tagList = "";
             foreach (var tag in tags)
             {
@@ -82,7 +85,7 @@ namespace AnalysisLibs
                             //Success
                             wait = 250;
 
-                            if (status.user.lang == filterLanguage)
+                            if (status.user.lang == language)
                             {
                                 handler(status);
                             }

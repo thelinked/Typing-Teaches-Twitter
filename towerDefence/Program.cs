@@ -13,43 +13,20 @@ namespace towerDefence
 {
     static class Program
     {
-        private static TwitterStream inStream;
-        private static SpellChecker spellChecker;
-        private static TextWriter csvWriter;
 
         static void Main(string[] args)
         {
-            string stream_url = ConfigurationManager.AppSettings["stream_url"];
-            csvWriter = new StreamWriter(@"C:\Temp\twitterlog.csv");
-            spellChecker = SetupSpellChecker();
-            inStream = SetupTwitterStream(stream_url, new[] { "#BeliebersHatePaparazzi" });
+            GameController controller = new GameController(PrintTweet);
+
+            controller.Listen(new[] { "#BeliebersHatePaparazzi" });
+
         }
 
-        private static SpellChecker SetupSpellChecker()
+        private static void PrintTweet(AnalysedSentence sentence)
         {
-            var hunspell = new Hunspell("en_GB-oed.aff", "en_GB-oed.dic");
-            return new SpellChecker(hunspell);
+            Console.WriteLine(sentence.Original);
         }
 
-        private static TwitterStream SetupTwitterStream(string url, string[] toTrack)
-        {
-            var language = "en";
-            var user = "oxfordDefence";
-            var pass = "oxfordTowerDefence";
-            var stream = new TwitterStream(url, user, pass, HandleTweet);
-            stream.Stream(toTrack,language);
-            return stream;
-        }
-
-        private static void HandleTweet(Status status)
-        {
-            AnalysedSentence analysed = spellChecker.CheckSentence(status.text);
-            if (analysed.IsValid)
-            {
-                Console.WriteLine(analysed);
-                csvWriter.WriteLine(analysed.ToCSV());
-                csvWriter.Flush();
-            }
-        }
+        
     }
 }
