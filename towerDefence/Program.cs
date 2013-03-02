@@ -19,10 +19,11 @@ namespace towerDefence
         private static TwitterStream SetupTwitterStream()
         {
             var tagsToTrack = new[] { "#fail,#BeliebersHatePaparazzi" };
+            var language = "en";
             var user = "oxfordDefence";
             var pass = "oxfordTowerDefence";
             var stream = new TwitterStream(user, pass, HandleTweet);
-            stream.Stream(tagsToTrack);
+            stream.Stream(tagsToTrack,language);
             return stream;
         }
 

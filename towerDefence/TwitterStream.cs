@@ -30,7 +30,7 @@ namespace towerDefence
             this.handler = tweetHandler;
         }
 
-        public void Stream(string[] tags)
+        public void Stream(string[] tags, string filterLanguage)
         {
             string tagList = "";
             foreach (var tag in tags)
@@ -84,9 +84,10 @@ namespace towerDefence
                             //Success
                             wait = 250;
 
-                            //Write Status
-                            handler(status);
-
+                            if (status.user.lang == filterLanguage)
+                            {
+                                handler(status);
+                            }
                         }
                         //Abort is needed or responseStream.Close() will hang.
                         webRequest.Abort();
