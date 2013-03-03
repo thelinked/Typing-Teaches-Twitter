@@ -17,7 +17,7 @@ namespace TwitterTeachesTyping
         private readonly GameController controller;
         private int Score { get; set; }
 
-        private List<AnalysedSentence> bufferedTweets;
+        private Queue<AnalysedSentence> bufferedTweets;
         private Dictionary<int,Tuple<AnalysedSentence,Image,Label>> activeTweets;
 
         private bool waitingForTweet;
@@ -29,7 +29,7 @@ namespace TwitterTeachesTyping
             scoreLabel.Content = "Score:0";
             controller = new GameController(HandleTweet);
 
-            bufferedTweets = new List<AnalysedSentence>();
+            bufferedTweets = new Queue<AnalysedSentence>();
             activeTweets = new Dictionary<int, Tuple<AnalysedSentence, Image,Label>>();
 
             waitingForTweet = true;
@@ -44,7 +44,7 @@ namespace TwitterTeachesTyping
         {
             if (!waitingForTweet)
             {
-                bufferedTweets.Add(tweet);
+                bufferedTweets.Enqueue(tweet);
             }
             else
             {
@@ -163,14 +163,14 @@ namespace TwitterTeachesTyping
                 scoreLabel.Content = string.Format("Score:{0}", Score);                
             }
 
-            if (!activeTweets.Any())
+            if (bufferedTweets.Any())
             {
-                waitingForTweet = true;
+                waitingForTweet = false;
+                AddTweetToUI(bufferedTweets.Dequeue());
             }
             else
             {
-                waitingForTweet = false;
-                AddTweetToUI(tweet.Item1);
+                waitingForTweet = true;
             }
         }
 
