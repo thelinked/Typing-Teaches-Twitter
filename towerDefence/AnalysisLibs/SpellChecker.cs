@@ -70,8 +70,13 @@ namespace towerDefence
 
             foreach (var item in sentence)
             {
+                if (item.Contains('\"'))
+                {
+                    Console.WriteLine("");
+                }
                 var word = item.Replace("\"", "");
-                if (word.StartsWith("RT"))
+                word = word.ToLower();
+                if (word.StartsWith("rt"))
                 {
                     continue;
                 }
@@ -88,7 +93,7 @@ namespace towerDefence
                     continue;
                 }
                 Regex rgx = new Regex("[^a-zA-Z]");
-                var plain = rgx.Replace(word, "");
+                var plain = rgx.Replace(item, "");
                 if (string.IsNullOrWhiteSpace(plain))
                 {
                     continue;
@@ -101,6 +106,10 @@ namespace towerDefence
                 if (!IsException(realWord))
                 {
                     var correct = CheckWord(realWord, out suggestions);
+                    if (!correct)
+                    {
+                        Console.WriteLine(realWord);
+                    }
                     var analysedWord = new AnalysedWord() { Correct = correct, Suggestions = suggestions, Word = realWord };
                     analysedWords.Add(analysedWord);
                 }
@@ -113,8 +122,9 @@ namespace towerDefence
             return new AnalysedSentence(tweet,analysedWords,attage,linkiness,hashQuotient);
         }
 
-        private bool IsException(string word)
+        private bool IsException(string item)
         {
+            var word = item.ToLower();
             if (word.Length < 3)
             {
                 return true;
@@ -122,7 +132,7 @@ namespace towerDefence
 
             List<string> exceptions = new List<string>()
                 {
-                    "i"
+                    "i","omg","omfg","lol"
                 };
 
             return exceptions.Contains(word);

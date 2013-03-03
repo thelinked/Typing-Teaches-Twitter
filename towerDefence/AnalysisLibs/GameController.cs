@@ -102,7 +102,7 @@ namespace AnalysisLibs
                 }
             }
 
-            if (shouldSend)
+            if (shouldSend && sentence.StupidityPercentage<50)
             {
                 sendTweetDestination(sentence);
                 lock (lockCookie)
