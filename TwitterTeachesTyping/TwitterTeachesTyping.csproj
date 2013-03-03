@@ -40,6 +40,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity">
       <HintPath>..\towerDefence\packages\MahApps.Metro.0.10.1.29-ALPHA\lib\net40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -100,6 +102,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\towerDefence\AnalysisLibs\AnalysisLibs.csproj">
+      <Project>{56598857-8796-451d-bcfb-c04e5183ff08}</Project>
+      <Name>AnalysisLibs</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Themes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

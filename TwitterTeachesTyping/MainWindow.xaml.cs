@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
+using TwitterTeachesTyping.Annotations;
 
 namespace TwitterTeachesTyping
 {
@@ -21,9 +24,31 @@ namespace TwitterTeachesTyping
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+
         public MainWindow()
         {
             InitializeComponent();
+            btnRaiseEvent.Click += btnRaiseEventCustomArgs_Click;
+            chooseTopic.TextInput += chooseTopic_MouseEnter;
         }
+
+
+        private void btnRaiseEventCustomArgs_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void chooseTopic_MouseEnter(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+        private void OnTargetUpdated(object sender, DataTransferEventArgs dataTransferEventArgs)
+        {
+            
+        }
+
+
+        public string Name2 { get; set; }
     }
 }
