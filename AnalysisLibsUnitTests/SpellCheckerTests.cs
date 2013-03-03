@@ -85,6 +85,14 @@ namespace AnalysisLibsUnitTests
             var sentence = spellChecker.CheckSentence(tweet);
             Assert.That(sentence.HasMisspelling, Is.False);
         }
+
+        [Test]
+        public void markNoSuggestionsAsBeingCorrect()
+        {
+            tweet = "hfw784hf784h87f RT @BieberIndonesia: I actually don't know how to make him happy at the ";
+            var sentence = spellChecker.CheckSentence(tweet);
+            Assert.That(sentence.HasMisspelling, Is.False);
+        }
        
     }
 }

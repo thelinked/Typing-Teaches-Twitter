@@ -107,11 +107,40 @@ namespace towerDefence
                 if (!IsException(realWord))
                 {
                     var correct = CheckWord(realWord, out suggestions);
+                    AnalysedWord analysedWord;
                     if (!correct)
                     {
-                        Console.WriteLine(realWord);
+                        //if no suggestions, just mark as being correct.
+                        if (!suggestions.Any())
+                        {
+                            analysedWord = new AnalysedWord()
+                                {
+                                    Correct = true,
+                                    Suggestions = suggestions,
+                                    Word = realWord
+                                };
+                        }
+                        else
+                        {
+                            analysedWord = new AnalysedWord()
+                            {
+                                Correct = false,
+                                Suggestions = suggestions,
+                                Word = realWord
+                            };
+                        }
+
+
                     }
-                    var analysedWord = new AnalysedWord() { Correct = correct, Suggestions = suggestions, Word = realWord };
+                    else
+                    {
+                        analysedWord = new AnalysedWord()
+                        {
+                            Correct = true,
+                            Suggestions = suggestions,
+                            Word = realWord
+                        };
+                    }
                     analysedWords.Add(analysedWord);
                 }
                 else
