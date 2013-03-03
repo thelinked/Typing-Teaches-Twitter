@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,96 +15,149 @@ namespace TwitterTeachesTyping
     public partial class MainWindow : MetroWindow
     {
         private readonly GameController controller;
+        private int Score { get; set; }
 
-        private readonly ScoreTracker scoreTracker;
+        private List<AnalysedSentence> bufferedTweets;
+        private Dictionary<int,AnalysedSentence> activeTweets;
+
+        private bool waitingForTweet;
 
         public MainWindow()
         {
             InitializeComponent();
-            InitializeComponent();
-            chooseTopic.KeyDown += (sender, e) => DispatchOnEnter(e, OnChooseTopic);
+            chooseTopic.KeyDown += (sender, e) => DispatchOnEnter(sender,e, OnChooseTopic);
             scoreLabel.Content = "Score:0";
             controller = new GameController(HandleTweet);
-            scoreTracker = new ScoreTracker();
+
+            bufferedTweets = new List<AnalysedSentence>();
+            activeTweets = new Dictionary<int, AnalysedSentence>();
+
+            waitingForTweet = true;
         }
 
         private void HandleTweet(AnalysedSentence tweet)
         {
-            Dispatcher.BeginInvoke((Action)(() =>
+            Dispatcher.BeginInvoke((Action)(() => ReallyHandleTweet(tweet)));
+        }
+
+        private void ReallyHandleTweet(AnalysedSentence tweet)
+        {
+            if (!waitingForTweet)
+            {
+                bufferedTweets.Add(tweet);
+            }
+            else
+            {
+                AddTweetToUI(tweet);
+                waitingForTweet = false;
+            }
+        }
+        private void AddTweetToUI(AnalysedSentence tweet)
+        {
+
+            var fancyTweet = new Paragraph();
+            var original = tweet.Original;
+            var needToPrintLast = false;
+
+
+
+            //Jack, please fix!
+            //This is totally broken
+            foreach (var word in tweet.Words.Where(x => !x.Correct))
+            {
+                //If a misspelt word is in the sentance more than once this will be wrong
+                var divided = original.Split(new[] { word.Word }, StringSplitOptions.None);
+
+                if (divided.Count() > 1)
                 {
-                    scoreLabel.Content = string.Format("Score:{0}", scoreTracker.Score);
+                    fancyTweet.Inlines.Add(new Run(divided[0]));
+                    fancyTweet.Inlines.Add(new Run(word.Word) { Background = Brushes.Red });
+                    needToPrintLast = true;
+                }
+                else
+                {
+                    fancyTweet.Inlines.Add(new Run(divided[0]));
+                    needToPrintLast = false;
+                    break;
+                }
 
-                    var fancyTweet = new Paragraph();
-                    var original = tweet.Original;
-                    var needToPrintLast = false;
+                original = divided[1];
+            }
+            if (needToPrintLast)
+            {
+                fancyTweet.Inlines.Add(original);
+            }
 
 
+            var box = new RichTextBox
+            {
+                Document = new FlowDocument(fancyTweet), 
+                Width = 600,
+                VerticalAlignment = VerticalAlignment.Center,
+                Focusable = true
+            };
 
-                    //Jack, please fix!
-                    //This is totally broken
-                    foreach (var word in tweet.Words.Where(x => !x.Correct))
+            var answer = new TextBox
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Center,
+                Width = 120
+            };
+
+            var lol = answer.GetHashCode();
+
+            activeTweets.Add(answer.GetHashCode(), tweet);
+            answer.KeyDown += (sender, e) => DispatchOnEnter(sender,e, OnPlayerEnteredText);
+            var Image = new Image
+                {
+                    Source = doGetImageSourceFromResource("TwitterTeachesTyping", "question.png"),
+                    Width = 56
+                };
+
+
+            var panel = new WrapPanel
+                {
+                    Orientation = Orientation.Horizontal,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Stretch
+                };
+
+            panel.Children.Add(box);
+            panel.Children.Add(answer);
+            panel.Children.Add(Image);
+
+            stackPanel.Children.Insert(0, panel);
+        }
+
+        private void OnPlayerEnteredText(object sender)
+        {
+            var box = (TextBox)sender;
+            var playerText = box.Text;
+
+            AnalysedSentence tweet;
+            if (activeTweets.TryGetValue(box.GetHashCode(), out tweet))
+            {
+                foreach (var word in tweet.Words.Where(x => !x.Correct))
+                {
+                    if (word.Suggestions.Any((x) => x == playerText))
                     {
-                        //If a misspelt word is in the sentance more than once this will be wrong
-                        var divided = original.Split(new[] { word.Word }, StringSplitOptions.None);
-
-                        if (divided.Count() > 1)
-                        {
-                            fancyTweet.Inlines.Add(new Run(divided[0]));
-                            fancyTweet.Inlines.Add(new Run(word.Word) { Background = Brushes.Red });
-                            needToPrintLast = true;
-                        }
-                        else
-                        {
-                            fancyTweet.Inlines.Add(new Run(divided[0]));
-                            needToPrintLast = false;
-                            break;
-                        }
-
-                        original = divided[1];
+                        Score += (int)(tweet.StupidityPercentage * 100);
+                        
                     }
-                    if (needToPrintLast)
-                    {
-                        fancyTweet.Inlines.Add(original);
-                    }
+                }
+                activeTweets.Remove(box.GetHashCode());
+                scoreLabel.Content = string.Format("Score:{0}", Score);                
+            }
 
-
-                    var box = new RichTextBox
-                    {
-                        Document = new FlowDocument(fancyTweet), 
-                        Width = 600,
-                        VerticalAlignment = VerticalAlignment.Center,
-                    };
-
-
-                    var answer = new TextBox
-                    {
-                        HorizontalAlignment = HorizontalAlignment.Stretch,
-                        VerticalAlignment = VerticalAlignment.Center,
-                        Width = 120
-                    };
-                    var Image = new Image
-                        {
-                            Source = doGetImageSourceFromResource("TwitterTeachesTyping", "question.png"),
-                            Width = 56
-                        };
-
-
-                    var panel = new WrapPanel
-                        {
-                            Orientation = Orientation.Horizontal,
-                            VerticalAlignment = VerticalAlignment.Center,
-                            HorizontalAlignment = HorizontalAlignment.Stretch
-                        };
-
-
-                    panel.Children.Add(box);
-                    panel.Children.Add(answer);
-                    panel.Children.Add(Image);
-
-                    stackPanel.Children.Insert(0, panel);
-                }));
-
-
+            if (!activeTweets.Any())
+            {
+                waitingForTweet = true;
+            }
+            else
+            {
+                waitingForTweet = false;
+                AddTweetToUI(tweet);
+            }
         }
 
         static internal ImageSource doGetImageSourceFromResource(string psAssemblyName, string psResourceName)
@@ -112,14 +166,15 @@ namespace TwitterTeachesTyping
             return BitmapFrame.Create(oUri);
         }
 
-        private void DispatchOnEnter(KeyEventArgs e, Action onEnter )
+        private void DispatchOnEnter(object sender, KeyEventArgs e, Action<object> onEnter )
         {
             if (e.Key == Key.Enter)
             {
-                onEnter();
+                onEnter(sender);
             }
         }
-        private void OnChooseTopic()
+
+        private void OnChooseTopic(object sender)
         {
             Console.WriteLine(chooseTopic.Text);
 
