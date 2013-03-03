@@ -65,7 +65,7 @@ namespace towerDefence
             var attage = MeasureAttagePercentage(tweet);
             var hashQuotient = MeasureHashQuotientPercentage(tweet);
 
-            var sentence = tweet.Split(new[]{' ',',','(',')','[',']','{','}','&',';'});
+            var sentence = tweet.Split(new[]{' ',',','(',')','[',']','{','}','&',';','.','\n','\r','~'});
 
             var realWords = new List<string>();
 
@@ -99,7 +99,19 @@ namespace towerDefence
                 {
                     continue;
                 }
-                realWords.Add(word);
+                if (word.Contains('/'))
+                {
+                    var splitSlash = word.Split('/');
+                    foreach (var s in splitSlash)
+                    {
+                        realWords.Add(s);
+                    }
+                }
+                else
+                {
+                    realWords.Add(word);
+                }
+                
             }
             foreach (var realWord in realWords)
             {

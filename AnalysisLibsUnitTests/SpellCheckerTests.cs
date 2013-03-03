@@ -93,6 +93,46 @@ namespace AnalysisLibsUnitTests
             var sentence = spellChecker.CheckSentence(tweet);
             Assert.That(sentence.HasMisspelling, Is.False);
         }
+
+        [Test]
+        public void ellipsis()
+        {
+            tweet = "I cannot believe this...my neighbour was murdered by her boyfriend...What is this life???";
+            var sentence = spellChecker.CheckSentence(tweet);
+            Assert.That(sentence.HasMisspelling, Is.False);
+        }
+
+        [Test]
+        public void forwardSlash()
+        {
+            tweet = "smile/happy I made someone";
+            var sentence = spellChecker.CheckSentence(tweet);
+            Assert.That(sentence.HasMisspelling, Is.False);
+        }
+
+        [Test]
+        public void newline()
+        {
+            tweet = "this\nis new";
+            var sentence = spellChecker.CheckSentence(tweet);
+            Assert.That(sentence.HasMisspelling, Is.False);
+        }
+
+        [Test]
+        public void tilde()
+        {
+            tweet = "this~is new";
+            var sentence = spellChecker.CheckSentence(tweet);
+            Assert.That(sentence.HasMisspelling, Is.False);
+        }
+
+        [Test]
+        public void removeWebLink()
+        {
+            tweet = "#AskOllieMarland http://t.co/Y7NscMperS sexy! Paris Hilton steamy video http://t.co/";
+            var sentence = spellChecker.CheckSentence(tweet);
+            Assert.That(sentence.HasMisspelling, Is.False);
+        }
        
     }
 }
