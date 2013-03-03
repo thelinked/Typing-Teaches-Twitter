@@ -114,8 +114,7 @@ namespace TwitterTeachesTyping
             var answers = new Label
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Center,
-                Width = 120
+                VerticalAlignment = VerticalAlignment.Center
             };
 
             activeTweets.Add(playerAnswer.GetHashCode(), new Tuple<AnalysedSentence, Image,Label>(tweet, Image,answers));
