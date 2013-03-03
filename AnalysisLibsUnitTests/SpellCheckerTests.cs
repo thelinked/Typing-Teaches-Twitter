@@ -37,5 +37,15 @@ namespace AnalysisLibsUnitTests
             var sentence = spellChecker.CheckSentence(tweet);
             Assert.That(sentence.Words.ElementAt(12).Word,Is.EqualTo("smile"));
         }
+
+        [Test]
+        public void apostrophe2()
+        {
+            tweet =
+                "RT @iSmileForBieb: This is an amazing feeling . #OperationMakeBieberSmile - mission complete. I'm so proud of this family. #beliebers ht ...";
+            var sentence = spellChecker.CheckSentence(tweet);
+            Assert.That(sentence.Words.ElementAt(7).Word, Is.EqualTo("I'm"));
+        
+        }
     }
 }

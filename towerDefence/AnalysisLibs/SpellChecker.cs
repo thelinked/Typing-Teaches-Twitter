@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -75,8 +76,7 @@ namespace towerDefence
                     Console.WriteLine("");
                 }
                 var word = item.Replace("\"", "");
-                word = word.ToLower();
-                if (word.StartsWith("rt"))
+                if (word.StartsWith("rt",true,CultureInfo.CurrentCulture))
                 {
                     continue;
                 }
