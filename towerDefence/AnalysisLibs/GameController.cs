@@ -72,8 +72,9 @@ namespace AnalysisLibs
         private TwitterStream SetupTwitterStream(string url)
         {
             var language = "en";
-            var user = "oxfordDefence";
-            var pass = "oxfordTowerDefence";
+            var user = ConfigurationManager.AppSettings["user"];
+            var pass = ConfigurationManager.AppSettings["pass"];
+
             return new TwitterStream(url, user, pass, AnalyseTweet, language);
         }
 
