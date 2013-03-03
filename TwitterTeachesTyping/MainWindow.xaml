@@ -20,16 +20,15 @@
     </Controls:MetroWindow.Resources>
 
     <Grid>
-        <DockPanel LastChildFill="False" Margin="0,58,0,152">
-            <TextBox x:Name="chooseTopic" Height="23" TextWrapping="Wrap" Text="Enter a trending topic!" VerticalAlignment="Bottom" Margin="0,0,0,367" DockPanel.Dock="Top"/>
+        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+            <TextBox x:Name="chooseTopic" MinWidth="200" HorizontalAlignment="Stretch"/>
+            <Label x:Name="scoreLabel" MaxWidth="200"/>
+        </WrapPanel>
+
+        <DockPanel LastChildFill="False" Dock="Top">
             <StackPanel x:Name="stackPanel" DataContext="{StaticResource analysedSentenceViewSource}" DockPanel.Dock="Bottom">
-                <Label Content="{Binding Name2}" />
             </StackPanel>
-            <twitterTeachesTyping:TweetGridItem Margin="34,0,2,0" DockPanel.Dock="Top"/>
-            <twitterTeachesTyping:TweetGridItem Margin="34,0,2,0" DockPanel.Dock="Top"/>
         </DockPanel>
-
-
     </Grid>
 
 </Controls:MetroWindow>

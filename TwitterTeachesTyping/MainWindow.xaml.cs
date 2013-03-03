@@ -21,19 +21,26 @@ namespace TwitterTeachesTyping
             InitializeComponent();
             chooseTopic.TextInput += chooseTopic_MouseEnter;
             chooseTopic.KeyDown += (sender, e) => DispatchOnEnter(e, OnChooseTopic);
-           // scoreLabel.Content = "Score:0";
+            scoreLabel.Content = "Score:0";
             controller = new GameController(HandleTweet);
+            scoreTracker = new ScoreTracker();
+            rand = new Random();
         }
 
         private void HandleTweet(AnalysedSentence tweet)
         {
-            this.Dispatcher.BeginInvoke(
-            (Action)delegate()
-            {
-                stackPanel.Children.Insert(0, new TextBox() { Text = tweet.Original });
-            });
             scoreTracker.Score = (int)(rand.Next() * 100);
             //scoreLabel.Content = string.Format("Score:{0}", scoreTracker.Score);
+
+           
+
+            Dispatcher.BeginInvoke((Action)(() =>
+                {
+                    var addthis = new TweetGridItem {Tweet = {Content = tweet.Original}, Guess = {Text = ""}};
+                    stackPanel.Children.Insert(0, addthis);
+                }));
+
+
         }
 
         private void chooseTopic_MouseEnter(object sender, RoutedEventArgs e)
