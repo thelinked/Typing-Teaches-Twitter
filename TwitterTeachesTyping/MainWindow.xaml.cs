@@ -18,7 +18,7 @@ namespace TwitterTeachesTyping
         private int Score { get; set; }
 
         private List<AnalysedSentence> bufferedTweets;
-        private Dictionary<int,AnalysedSentence> activeTweets;
+        private Dictionary<int,Tuple<AnalysedSentence,Image>> activeTweets;
 
         private bool waitingForTweet;
 
@@ -30,7 +30,7 @@ namespace TwitterTeachesTyping
             controller = new GameController(HandleTweet);
 
             bufferedTweets = new List<AnalysedSentence>();
-            activeTweets = new Dictionary<int, AnalysedSentence>();
+            activeTweets = new Dictionary<int, Tuple<AnalysedSentence, Image>>();
 
             waitingForTweet = true;
         }
@@ -104,16 +104,15 @@ namespace TwitterTeachesTyping
                 Width = 120
             };
 
-            var lol = answer.GetHashCode();
 
-            activeTweets.Add(answer.GetHashCode(), tweet);
-            answer.KeyDown += (sender, e) => DispatchOnEnter(sender,e, OnPlayerEnteredText);
             var Image = new Image
                 {
                     Source = doGetImageSourceFromResource("TwitterTeachesTyping", "question.png"),
                     Width = 56
                 };
 
+            activeTweets.Add(answer.GetHashCode(), new Tuple<AnalysedSentence, Image>(tweet, Image));
+            answer.KeyDown += (sender, e) => DispatchOnEnter(sender, e, OnPlayerEnteredText);
 
             var panel = new WrapPanel
                 {
@@ -134,14 +133,20 @@ namespace TwitterTeachesTyping
             var box = (TextBox)sender;
             var playerText = box.Text;
 
-            AnalysedSentence tweet;
+            Tuple<AnalysedSentence,Image> tweet;
             if (activeTweets.TryGetValue(box.GetHashCode(), out tweet))
             {
-                foreach (var word in tweet.Words.Where(x => !x.Correct))
+                foreach (var word in tweet.Item1.Words.Where(x => !x.Correct))
                 {
                     if (word.Suggestions.Any((x) => x == playerText))
                     {
-                        Score += (int)(tweet.StupidityPercentage * 100);
+                        Score += (int)(tweet.Item1.StupidityPercentage * 100);
+                        tweet.Item2.Source = doGetImageSourceFromResource("TwitterTeachesTyping", "tick.jpg");
+                        break;
+                    }
+                    else
+                    {
+                        tweet.Item2.Source = doGetImageSourceFromResource("TwitterTeachesTyping", "x.jpg");
                         
                     }
                 }
@@ -156,7 +161,7 @@ namespace TwitterTeachesTyping
             else
             {
                 waitingForTweet = false;
-                AddTweetToUI(tweet);
+                AddTweetToUI(tweet.Item1);
             }
         }
 
