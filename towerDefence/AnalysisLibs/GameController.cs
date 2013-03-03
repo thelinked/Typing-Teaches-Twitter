@@ -12,12 +12,6 @@ namespace AnalysisLibs
 {
     public class GameController
     {
-//        public delegate void SubscribeToTopic(string topic);
-//
-//        public delegate void TweetFrequency(int millis);
-//
-//        public delegate void DifficultyLevel(int difficulty);
-
         public delegate void SendTweetDelegate(AnalysedSentence sentence);
 
         private Thread listenerThread;
@@ -33,6 +27,15 @@ namespace AnalysisLibs
             spellChecker = SetupSpellChecker();
         }
 
+        public void SetFreqency(int millis)
+        {
+            
+        }
+
+        public void SetDifficulty(int difficulty)
+        {
+            
+        }
         public void Listen(string[] tags)
         {
             if (listenerThread != null)
