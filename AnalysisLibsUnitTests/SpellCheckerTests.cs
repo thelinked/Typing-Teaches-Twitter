@@ -60,5 +60,15 @@ namespace AnalysisLibsUnitTests
             sentence = spellChecker.CheckSentence(tweet);
             Assert.That(sentence.HasMisspelling, Is.True);
         }
+
+        [Test]
+        public void trailing_questionmark()
+        {
+            tweet =
+                "You see this? Jay brings new details about bad blood again!!!  #OperationMakeBieberSmile http://t.co/hYaA6sOP1G";
+            var sentence = spellChecker.CheckSentence(tweet);
+            Assert.That(sentence.HasMisspelling, Is.False);
+        }
+       
     }
 }
