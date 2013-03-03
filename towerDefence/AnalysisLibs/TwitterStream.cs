@@ -21,6 +21,8 @@ namespace AnalysisLibs
 
         private TweetHandler handler;
 
+        private bool keepGoing = true;
+
         public TwitterStream(string streamURL, string username, string password, TweetHandler tweetHandler, string language)
         {
             this.stream_url = streamURL;
@@ -30,8 +32,14 @@ namespace AnalysisLibs
             this.language = language;
         }
 
+        public void Stop()
+        {
+            keepGoing = false;
+        }
+
         public void Stream(Object param)
         {
+            keepGoing = true;
             string[] tags = param as string[];
             string tagList = "";
             foreach (var tag in tags)
@@ -46,7 +54,7 @@ namespace AnalysisLibs
 
             try
             {
-                while (true)
+                while (keepGoing)
                 {
                     try
                     {
@@ -73,7 +81,7 @@ namespace AnalysisLibs
                         responseStream = new StreamReader(webResponse.GetResponseStream(), encode);
 
                         //Read the stream.
-                        while (true)
+                        while (keepGoing)
                         {
                             jsonText = responseStream.ReadLine();
 
@@ -100,7 +108,7 @@ namespace AnalysisLibs
                     }
                     catch (WebException ex)
                     {
-                        Console.WriteLine(ex.Message);
+                        Console.WriteLine(ex);
                         //logger..append(ex.Message, Logger.LogLevel.ERROR);
                         if (ex.Status == WebExceptionStatus.ProtocolError)
                         {
@@ -136,7 +144,7 @@ namespace AnalysisLibs
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
+                        Console.WriteLine(ex);
                         
                     }
                     finally

@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using AnalysisLibs;
 using NHunspell;
@@ -20,6 +21,9 @@ namespace towerDefence
 
             controller.Listen(new[] { "#BeliebersHatePaparazzi" });
 
+            Thread.Sleep(10000);
+
+            controller.Listen(new[] { "#BackInTheDayHitBangers" });
         }
 
         private static void PrintTweet(AnalysedSentence sentence)

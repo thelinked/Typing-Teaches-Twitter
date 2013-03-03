@@ -35,6 +35,12 @@ namespace AnalysisLibs
 
         public void Listen(string[] tags)
         {
+            if (listenerThread != null)
+            {
+                storedStream.Stop();
+                Thread.Sleep(2000);
+                listenerThread = null;
+            }
             listenerThread = new Thread(new ParameterizedThreadStart(storedStream.Stream));
             listenerThread.Start(tags);
         }
