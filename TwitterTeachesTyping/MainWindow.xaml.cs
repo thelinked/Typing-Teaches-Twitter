@@ -17,8 +17,8 @@ namespace TwitterTeachesTyping
         private readonly GameController controller;
         private int Score { get; set; }
 
-        private Queue<AnalysedSentence> bufferedTweets;
-        private Dictionary<int,Tuple<AnalysedSentence,Image,Label>> activeTweets;
+        private readonly Queue<AnalysedSentence> bufferedTweets;
+        private readonly Dictionary<int,Tuple<AnalysedSentence,Image,Label>> activeTweets;
 
         private bool waitingForTweet;
 
@@ -94,7 +94,8 @@ namespace TwitterTeachesTyping
                 Document = new FlowDocument(fancyTweet), 
                 Width = 600,
                 VerticalAlignment = VerticalAlignment.Center,
-                Focusable = true
+                Focusable = true,
+                IsEnabled = false
             };
 
             var playerAnswer = new TextBox
@@ -108,9 +109,9 @@ namespace TwitterTeachesTyping
             TextboxHelper.SetClearTextButton(playerAnswer, true);
 
 
-            var Image = new Image
+            var image = new Image
                 {
-                    Source = doGetImageSourceFromResource("TwitterTeachesTyping", "question.png"),
+                    Source = DoGetImageSourceFromResource("TwitterTeachesTyping", "question.png"),
                     Width = 56
                 };
 
@@ -120,7 +121,7 @@ namespace TwitterTeachesTyping
                 VerticalAlignment = VerticalAlignment.Center
             };
 
-            activeTweets.Add(playerAnswer.GetHashCode(), new Tuple<AnalysedSentence, Image,Label>(tweet, Image,answers));
+            activeTweets.Add(playerAnswer.GetHashCode(), new Tuple<AnalysedSentence, Image,Label>(tweet, image,answers));
             playerAnswer.KeyDown += (sender, e) => DispatchOnEnter(sender, e, OnPlayerEnteredText);
 
             var panel = new WrapPanel
@@ -132,7 +133,7 @@ namespace TwitterTeachesTyping
 
             panel.Children.Add(box);
             panel.Children.Add(playerAnswer);
-            panel.Children.Add(Image);
+            panel.Children.Add(image);
             panel.Children.Add(answers);
 
             stackPanel.Children.Insert(0, panel);
@@ -148,20 +149,20 @@ namespace TwitterTeachesTyping
             {
                 foreach (var word in tweet.Item1.Words.Where(x => !x.Correct))
                 {
-                    if (word.Suggestions.Any((x) => x == playerText))
+                    if (word.Suggestions.Any(x => x == playerText))
                     {
                         Score += (int)(tweet.Item1.StupidityPercentage * 100);
-                        tweet.Item2.Source = doGetImageSourceFromResource("TwitterTeachesTyping", "tick.jpg");
+                        tweet.Item2.Source = DoGetImageSourceFromResource("TwitterTeachesTyping", "tick.jpg");
                         tweet.Item3.Content = string.Join(",", word.Suggestions);
                         break;
                     }
-                    else
-                    {
-                        tweet.Item2.Source = doGetImageSourceFromResource("TwitterTeachesTyping", "x.jpg");
-                        tweet.Item3.Content = string.Join(",", word.Suggestions);
-                        
-                    }
+
+                    tweet.Item2.Source = DoGetImageSourceFromResource("TwitterTeachesTyping", "x.jpg");
+                    tweet.Item3.Content = string.Join(",", word.Suggestions);
                 }
+
+                box.IsEnabled = false;
+
                 activeTweets.Remove(box.GetHashCode());
                 scoreLabel.Content = string.Format("Score:{0}", Score);                
             }
@@ -177,9 +178,9 @@ namespace TwitterTeachesTyping
             }
         }
 
-        static internal ImageSource doGetImageSourceFromResource(string psAssemblyName, string psResourceName)
+        static internal ImageSource DoGetImageSourceFromResource(string psAssemblyName, string psResourceName)
         {
-            Uri oUri = new Uri("pack://application:,,,/" + psAssemblyName + ";component/" + psResourceName, UriKind.RelativeOrAbsolute);
+            var oUri = new Uri("pack://application:,,,/" + psAssemblyName + ";component/" + psResourceName, UriKind.RelativeOrAbsolute);
             return BitmapFrame.Create(oUri);
         }
 
@@ -194,6 +195,9 @@ namespace TwitterTeachesTyping
         private void OnChooseTopic(object sender)
         {
             Console.WriteLine(chooseTopic.Text);
+
+            bufferedTweets.Clear();
+            waitingForTweet = true;
 
             if (!string.IsNullOrWhiteSpace(chooseTopic.Text))
             {
