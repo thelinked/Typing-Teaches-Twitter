@@ -44,7 +44,7 @@ namespace AnalysisLibsUnitTests
             tweet =
                 "RT @iSmileForBieb: This is an amazing feeling . #OperationMakeBieberSmile - mission complete. I'm so proud of this family. #beliebers ht ...";
             var sentence = spellChecker.CheckSentence(tweet);
-            Assert.That(sentence.Words.ElementAt(7).Word, Is.EqualTo("I'm"));
+            Assert.That(sentence.Words.ElementAt(8).Word, Is.EqualTo("I'm"));
         
         }
 
