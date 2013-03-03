@@ -18,7 +18,7 @@ namespace TwitterTeachesTyping
         private int Score { get; set; }
 
         private List<AnalysedSentence> bufferedTweets;
-        private Dictionary<int,Tuple<AnalysedSentence,Image>> activeTweets;
+        private Dictionary<int,Tuple<AnalysedSentence,Image,Label>> activeTweets;
 
         private bool waitingForTweet;
 
@@ -30,7 +30,7 @@ namespace TwitterTeachesTyping
             controller = new GameController(HandleTweet);
 
             bufferedTweets = new List<AnalysedSentence>();
-            activeTweets = new Dictionary<int, Tuple<AnalysedSentence, Image>>();
+            activeTweets = new Dictionary<int, Tuple<AnalysedSentence, Image,Label>>();
 
             waitingForTweet = true;
         }
@@ -97,7 +97,7 @@ namespace TwitterTeachesTyping
                 Focusable = true
             };
 
-            var answer = new TextBox
+            var playerAnswer = new TextBox
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Center,
@@ -111,8 +111,15 @@ namespace TwitterTeachesTyping
                     Width = 56
                 };
 
-            activeTweets.Add(answer.GetHashCode(), new Tuple<AnalysedSentence, Image>(tweet, Image));
-            answer.KeyDown += (sender, e) => DispatchOnEnter(sender, e, OnPlayerEnteredText);
+            var answers = new Label
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Center,
+                Width = 120
+            };
+
+            activeTweets.Add(playerAnswer.GetHashCode(), new Tuple<AnalysedSentence, Image,Label>(tweet, Image,answers));
+            playerAnswer.KeyDown += (sender, e) => DispatchOnEnter(sender, e, OnPlayerEnteredText);
 
             var panel = new WrapPanel
                 {
@@ -122,8 +129,9 @@ namespace TwitterTeachesTyping
                 };
 
             panel.Children.Add(box);
-            panel.Children.Add(answer);
+            panel.Children.Add(playerAnswer);
             panel.Children.Add(Image);
+            panel.Children.Add(answers);
 
             stackPanel.Children.Insert(0, panel);
         }
@@ -133,7 +141,7 @@ namespace TwitterTeachesTyping
             var box = (TextBox)sender;
             var playerText = box.Text;
 
-            Tuple<AnalysedSentence,Image> tweet;
+            Tuple<AnalysedSentence,Image,Label> tweet;
             if (activeTweets.TryGetValue(box.GetHashCode(), out tweet))
             {
                 foreach (var word in tweet.Item1.Words.Where(x => !x.Correct))
@@ -142,11 +150,13 @@ namespace TwitterTeachesTyping
                     {
                         Score += (int)(tweet.Item1.StupidityPercentage * 100);
                         tweet.Item2.Source = doGetImageSourceFromResource("TwitterTeachesTyping", "tick.jpg");
+                        tweet.Item3.Content = string.Join(",", word.Suggestions);
                         break;
                     }
                     else
                     {
                         tweet.Item2.Source = doGetImageSourceFromResource("TwitterTeachesTyping", "x.jpg");
+                        tweet.Item3.Content = string.Join(",", word.Suggestions);
                         
                     }
                 }
