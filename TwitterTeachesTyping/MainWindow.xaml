@@ -24,8 +24,10 @@
         <WrapPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
             <TextBox x:Name="chooseTopic" Text="#AskOllieMarland" MinWidth="200" HorizontalAlignment="Stretch"
                      Controls:TextboxHelper.ClearTextButton="True"
-                     Controls:TextboxHelper.Watermark="Enter a Topic"/>
-            <Label x:Name="scoreLabel" MaxWidth="200"/>
+                     Controls:TextboxHelper.Watermark="Enter a Topic"
+                     FontSize="18"/>
+            <Label x:Name="scoreLabel" MaxWidth="200"
+                   FontSize="18"/>
         </WrapPanel>
         <DockPanel LastChildFill="False" Dock="Top" VerticalAlignment="Stretch" Margin="0,30,0,0">
             <StackPanel x:Name="stackPanel" DockPanel.Dock="Top" Width="1100">

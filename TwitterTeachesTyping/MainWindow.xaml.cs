@@ -54,18 +54,12 @@ namespace TwitterTeachesTyping
         }
         private void AddTweetToUI(AnalysedSentence tweet)
         {
-
             var fancyTweet = new Paragraph();
             var original = tweet.Original;
             var needToPrintLast = false;
 
-
-
-            //Jack, please fix!
-            //This is totally broken
             foreach (var word in tweet.Words.Where(x => !x.Correct))
             {
-                //If a misspelt word is in the sentance more than once this will be wrong
                 var divided = original.Split(new[] { word.Word }, StringSplitOptions.None);
 
                 if (divided.Count() > 1)
