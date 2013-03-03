@@ -24,20 +24,26 @@ namespace TwitterTeachesTyping
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        private GameController controller;
+        private readonly GameController controller;
         public MainWindow()
         {
             InitializeComponent();
-            btnRaiseEvent.Click += btnRaiseEventCustomArgs_Click;
+            //btnRaiseEvent.Click += btnRaiseEventCustomArgs_Click;
             chooseTopic.TextInput += chooseTopic_MouseEnter;
             chooseTopic.KeyDown += (sender, e) => DispatchOnEnter(e, OnChooseTopic);
 
-            controller = new GameController(PrintTweet);
+            controller = new GameController(HandleTweet);
+//            gameController.Listen(new[] { "#BeliebersHatePaparazzi" });
         }
 
-        private static void PrintTweet(AnalysedSentence sentence)
+        private void HandleTweet(AnalysedSentence tweet)
         {
-            Console.WriteLine(sentence.Original);
+            this.Dispatcher.BeginInvoke(
+            (Action)delegate()
+            {
+                stackPanel.Children.Insert(0, new TextBox() { Text = tweet.Original });
+            });
+
         }
 
         private void btnRaiseEventCustomArgs_Click(object sender, RoutedEventArgs e)
