@@ -19,12 +19,16 @@ namespace towerDefence
         {
             GameController controller = new GameController(PrintTweet);
 
-            controller.SetFreqency(5000);
+            controller.SetFreqency(new TimeSpan(0,0,0,5));
+
             controller.Listen(new[] { "#BeliebersHatePaparazzi" });
 
             Thread.Sleep(10000);
 
             controller.Listen(new[] { "#BackInTheDayHitBangers" });
+
+            Thread.Sleep(10000);
+            controller.SetFreqency(new TimeSpan(0,0,0,1));
         }
 
         private static void PrintTweet(AnalysedSentence sentence)

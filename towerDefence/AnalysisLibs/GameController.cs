@@ -19,23 +19,44 @@ namespace AnalysisLibs
         private SpellChecker spellChecker;
         private SendTweetDelegate sendTweetDestination;
 
+        private TimeSpan frequency;
+        private DateTime lastSent;
+
+        private static readonly object lockCookie = new object();
+        
         public GameController(SendTweetDelegate sendTweetDestination)
         {
             this.sendTweetDestination = sendTweetDestination;
             string stream_url = ConfigurationManager.AppSettings["stream_url"];
             storedStream = SetupTwitterStream(stream_url);
             spellChecker = SetupSpellChecker();
+
+            SetFreqency(new TimeSpan(0,0,0,5));
+            lastSent = DateTime.MinValue;
         }
 
-        public void SetFreqency(int millis)
+        public void SetFreqency(TimeSpan timeSpan)
         {
+            lock (lockCookie)
+            {
+                frequency = timeSpan;
+            }
             
+        }
+
+        public void SendImmediate()
+        {
+            lock (lockCookie)
+            {
+                lastSent = DateTime.MinValue;
+            }
         }
 
         public void SetDifficulty(int difficulty)
         {
-            
+            //not used yet
         }
+
         public void Listen(string[] tags)
         {
             if (listenerThread != null)
@@ -63,9 +84,32 @@ namespace AnalysisLibs
             {
                 if (sendTweetDestination != null)
                 {
-                    sendTweetDestination(analysed);
+                    RateLimitAndSend(analysed);
                 }
             }
+        }
+
+        private void RateLimitAndSend(AnalysedSentence sentence)
+        {
+            bool shouldSend = false;
+            lock (lockCookie)
+            {
+                TimeSpan sinceLastSent = DateTime.Now - lastSent;
+                if (sinceLastSent > frequency)
+                {
+                    shouldSend = true;
+                }
+            }
+
+            if (shouldSend)
+            {
+                sendTweetDestination(sentence);
+                lock (lockCookie)
+                {
+                    lastSent = DateTime.Now;
+                }
+            }
+
         }
 
         private SpellChecker SetupSpellChecker()
