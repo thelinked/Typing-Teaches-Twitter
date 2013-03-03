@@ -15,7 +15,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
-using TwitterTeachesTyping.Annotations;
 
 namespace TwitterTeachesTyping
 {
@@ -35,17 +34,32 @@ namespace TwitterTeachesTyping
 
         private void btnRaiseEventCustomArgs_Click(object sender, RoutedEventArgs e)
         {
-
+            Console.WriteLine("buttonclick");
         }
         private void chooseTopic_MouseEnter(object sender, RoutedEventArgs e)
         {
-
+            Console.WriteLine("mouseEnter");
         }
 
 
         private void OnTargetUpdated(object sender, DataTransferEventArgs dataTransferEventArgs)
         {
-            
+            Console.WriteLine("targetUpdated");
+        }
+
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ButtonOK_Click(this, new RoutedEventArgs());
+            }
+        }
+
+        private void ButtonOK_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine(chooseTopic.Text);
+            // May do other stuff.
+            //this.Close();
         }
 
 

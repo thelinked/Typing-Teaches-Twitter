@@ -22,7 +22,7 @@
         <StackPanel DockPanel.Dock="Top" DataContext="{StaticResource analysedSentenceViewSource}">
             <TextBlock Text="{Binding Path=Name2, NotifyOnTargetUpdated=True}" TargetUpdated="OnTargetUpdated"/>
             <Button x:Name="btnRaiseEvent" Margin="10,0,0,0" Content="I Raise An Event"/>
-            <TextBox x:Name="chooseTopic" Text="{Binding Original}"/>
+            <TextBox x:Name="chooseTopic" Text="{Binding Original}" KeyDown="TextBox_KeyDown"/>
             <Label Content="{Binding Name2}" />
             <Button Content="Button1"/>
             <Button Content="Button2"/>
