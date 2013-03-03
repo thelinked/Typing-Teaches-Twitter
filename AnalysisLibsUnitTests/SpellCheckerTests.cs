@@ -47,5 +47,18 @@ namespace AnalysisLibsUnitTests
             Assert.That(sentence.Words.ElementAt(7).Word, Is.EqualTo("I'm"));
         
         }
+
+        [Test]
+        public void trailing_exclamation()
+        {
+            tweet = "RT @bob I hate this!";
+            var sentence = spellChecker.CheckSentence(tweet);
+            Assert.That(sentence.HasMisspelling, Is.False);
+
+
+            tweet = "RT @bob I hate thsi!";
+            sentence = spellChecker.CheckSentence(tweet);
+            Assert.That(sentence.HasMisspelling, Is.True);
+        }
     }
 }

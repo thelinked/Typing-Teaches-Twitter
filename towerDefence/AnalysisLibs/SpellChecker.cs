@@ -76,6 +76,7 @@ namespace towerDefence
                     Console.WriteLine("");
                 }
                 var word = item.Replace("\"", "");
+                word = item.Replace("!", "");
                 if (word.StartsWith("rt",true,CultureInfo.CurrentCulture))
                 {
                     continue;
