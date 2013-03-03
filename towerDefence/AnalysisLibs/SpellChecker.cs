@@ -68,8 +68,9 @@ namespace towerDefence
 
             var realWords = new List<string>();
 
-            foreach (var word in sentence)
+            foreach (var item in sentence)
             {
+                var word = item.Replace("\"", "");
                 if (word.StartsWith("RT"))
                 {
                     continue;
@@ -97,13 +98,35 @@ namespace towerDefence
             foreach (var realWord in realWords)
             {
                 List<string> suggestions;
-                var correct = CheckWord(realWord, out suggestions);
-                var analysedWord = new AnalysedWord() {Correct = correct, Suggestions = suggestions,Word = realWord};
-                analysedWords.Add(analysedWord);
+                if (!IsException(realWord))
+                {
+                    var correct = CheckWord(realWord, out suggestions);
+                    var analysedWord = new AnalysedWord() { Correct = correct, Suggestions = suggestions, Word = realWord };
+                    analysedWords.Add(analysedWord);
+                }
+                else
+                {
+                    analysedWords.Add(new AnalysedWord(){Correct = true,Suggestions = new List<string>(),Word = realWord});
+                }
+                
             }
             return new AnalysedSentence(tweet,analysedWords,attage,linkiness,hashQuotient);
         }
 
+        private bool IsException(string word)
+        {
+            if (word.Length < 3)
+            {
+                return true;
+            }
+
+            List<string> exceptions = new List<string>()
+                {
+                    "i"
+                };
+
+            return exceptions.Contains(word);
+        }
         private bool CheckWord(string word, out List<string> suggestions)
         {
             List<string> reccomendations;
