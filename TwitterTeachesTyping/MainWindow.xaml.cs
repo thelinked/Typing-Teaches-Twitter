@@ -16,26 +16,19 @@ namespace TwitterTeachesTyping
         private readonly GameController controller;
 
         private readonly ScoreTracker scoreTracker;
-        private readonly Random rand;
 
         public MainWindow()
         {
             InitializeComponent();
             InitializeComponent();
-            chooseTopic.TextInput += chooseTopic_MouseEnter;
             chooseTopic.KeyDown += (sender, e) => DispatchOnEnter(e, OnChooseTopic);
             scoreLabel.Content = "Score:0";
             controller = new GameController(HandleTweet);
             scoreTracker = new ScoreTracker();
-            rand = new Random();
         }
 
         private void HandleTweet(AnalysedSentence tweet)
         {
-            scoreTracker.Score = (rand.Next() * 100);
-
-           
-
             Dispatcher.BeginInvoke((Action)(() =>
                 {
                     scoreLabel.Content = string.Format("Score:{0}", scoreTracker.Score);
@@ -107,10 +100,6 @@ namespace TwitterTeachesTyping
                     panel.Children.Add(answer);
                     panel.Children.Add(Image);
 
-
-     
-                   // <TextBox x:Name="Guess" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center" Width="120"/
-
                     stackPanel.Children.Insert(0, panel);
                 }));
 
@@ -121,11 +110,6 @@ namespace TwitterTeachesTyping
         {
             Uri oUri = new Uri("pack://application:,,,/" + psAssemblyName + ";component/" + psResourceName, UriKind.RelativeOrAbsolute);
             return BitmapFrame.Create(oUri);
-        }
-
-        private void chooseTopic_MouseEnter(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine("mouseEnter");
         }
 
         private void DispatchOnEnter(KeyEventArgs e, Action onEnter )
