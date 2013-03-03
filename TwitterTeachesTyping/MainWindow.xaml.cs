@@ -92,10 +92,11 @@ namespace TwitterTeachesTyping
             var box = new RichTextBox
             {
                 Document = new FlowDocument(fancyTweet), 
-                Width = 600,
+                Width = 900,
                 VerticalAlignment = VerticalAlignment.Center,
                 Focusable = true,
-                IsEnabled = false
+                IsEnabled = false,
+                FontSize = 16
             };
 
             var playerAnswer = new TextBox
@@ -103,7 +104,7 @@ namespace TwitterTeachesTyping
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Center,
                 Width = 120,
-
+                FontSize = 16
             };
             TextboxHelper.SetWatermark(playerAnswer, "Type Here");
             TextboxHelper.SetClearTextButton(playerAnswer, true);
@@ -149,13 +150,27 @@ namespace TwitterTeachesTyping
             {
                 foreach (var word in tweet.Item1.Words.Where(x => !x.Correct))
                 {
-                    if (word.Suggestions.Any(x => x == playerText))
+                    if (word.Word.ToUpper() == word.Word)
                     {
-                        Score += (int)(tweet.Item1.StupidityPercentage * 100);
-                        tweet.Item2.Source = DoGetImageSourceFromResource("TwitterTeachesTyping", "tick.jpg");
-                        tweet.Item3.Content = string.Join(",", word.Suggestions);
-                        break;
+                        if (word.Suggestions.Any(x => x.ToUpper() == playerText.ToUpper()))
+                        {
+                            Score += (int)(tweet.Item1.StupidityPercentage * 100);
+                            tweet.Item2.Source = DoGetImageSourceFromResource("TwitterTeachesTyping", "tick.jpg");
+                            tweet.Item3.Content = string.Join(",", word.Suggestions);
+                            break;
+                        }
                     }
+                    else
+                    {
+                        if (word.Suggestions.Any(x => x == playerText))
+                        {
+                            Score += (int)(tweet.Item1.StupidityPercentage * 100);
+                            tweet.Item2.Source = DoGetImageSourceFromResource("TwitterTeachesTyping", "tick.jpg");
+                            tweet.Item3.Content = string.Join(",", word.Suggestions);
+                            break;
+                        }
+                    }
+
 
                     tweet.Item2.Source = DoGetImageSourceFromResource("TwitterTeachesTyping", "x.jpg");
                     tweet.Item3.Content = string.Join(",", word.Suggestions);
