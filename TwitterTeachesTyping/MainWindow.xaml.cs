@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AnalysisLibs;
 using MahApps.Metro.Controls;
 
 namespace TwitterTeachesTyping
@@ -23,43 +24,57 @@ namespace TwitterTeachesTyping
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-
+        private GameController controller;
         public MainWindow()
         {
             InitializeComponent();
             btnRaiseEvent.Click += btnRaiseEventCustomArgs_Click;
             chooseTopic.TextInput += chooseTopic_MouseEnter;
+            chooseTopic.KeyDown += (sender, e) => DispatchOnEnter(e, OnChooseTopic);
+
+            controller = new GameController(PrintTweet);
         }
 
+        private static void PrintTweet(AnalysedSentence sentence)
+        {
+            Console.WriteLine(sentence.Original);
+        }
 
         private void btnRaiseEventCustomArgs_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("buttonclick");
+            Console.WriteLine("buttonclick");   
         }
+
+
+
         private void chooseTopic_MouseEnter(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("mouseEnter");
         }
+        private void DispatchOnEnter(KeyEventArgs e, Action onEnter )
+        {
+            if (e.Key == Key.Enter)
+            {
+                onEnter();
+            }
+        }
+        private void OnChooseTopic()
+        {
+            Console.WriteLine(chooseTopic.Text);
+
+            if (!string.IsNullOrWhiteSpace(chooseTopic.Text))
+            {
+                controller.Listen(chooseTopic.Text.Split(',').Select(x => x.Trim()).ToArray());
+            }
+        }
+
+
+
 
 
         private void OnTargetUpdated(object sender, DataTransferEventArgs dataTransferEventArgs)
         {
             Console.WriteLine("targetUpdated");
-        }
-
-        private void TextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                ButtonOK_Click(this, new RoutedEventArgs());
-            }
-        }
-
-        private void ButtonOK_Click(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine(chooseTopic.Text);
-            // May do other stuff.
-            //this.Close();
         }
 
 
