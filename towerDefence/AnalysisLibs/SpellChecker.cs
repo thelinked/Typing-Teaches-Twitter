@@ -64,7 +64,7 @@ namespace towerDefence
             var attage = MeasureAttagePercentage(tweet);
             var hashQuotient = MeasureHashQuotientPercentage(tweet);
 
-            var sentence = tweet.Split(' ');
+            var sentence = tweet.Split(new[]{' ',','});
 
             var realWords = new List<string>();
 
@@ -98,7 +98,7 @@ namespace towerDefence
                 {
                     continue;
                 }
-                realWords.Add(plain);
+                realWords.Add(word);
             }
             foreach (var realWord in realWords)
             {
