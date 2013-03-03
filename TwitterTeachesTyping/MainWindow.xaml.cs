@@ -101,8 +101,11 @@ namespace TwitterTeachesTyping
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Center,
-                Width = 120
+                Width = 120,
+
             };
+            TextboxHelper.SetWatermark(playerAnswer, "Type Here");
+            TextboxHelper.SetClearTextButton(playerAnswer, true);
 
 
             var Image = new Image
