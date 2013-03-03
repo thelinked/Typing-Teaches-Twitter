@@ -69,6 +69,22 @@ namespace AnalysisLibsUnitTests
             var sentence = spellChecker.CheckSentence(tweet);
             Assert.That(sentence.HasMisspelling, Is.False);
         }
+
+        [Test]
+        public void via()
+        {
+            tweet = "RT @BieberIndonesia: I actually don't know how to make him happy at the moment (Via @57UN)";
+            var sentence = spellChecker.CheckSentence(tweet);
+            Assert.That(sentence.HasMisspelling, Is.False);
+        }
+
+        [Test]
+        public void specialHtmlChars()
+        {
+            tweet = "twitter for heart &It;3";
+            var sentence = spellChecker.CheckSentence(tweet);
+            Assert.That(sentence.HasMisspelling, Is.False);
+        }
        
     }
 }
