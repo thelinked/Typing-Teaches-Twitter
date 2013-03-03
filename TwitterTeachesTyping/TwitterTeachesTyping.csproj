@@ -65,6 +65,7 @@
     <Compile Include="TweetGridItem.xaml.cs">
       <DependentUpon>TweetGridItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ScoreTracker.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
