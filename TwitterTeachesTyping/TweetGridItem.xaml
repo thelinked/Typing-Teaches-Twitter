@@ -3,20 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" Height="36" Width="660">
-    <Grid Margin="0,0,-360,189" HorizontalAlignment="Left" Width="660" RenderTransformOrigin="0.5,0.5">
-        <Grid.RenderTransform>
-            <TransformGroup>
-                <ScaleTransform/>
-                <SkewTransform/>
-                <RotateTransform Angle="-0.028"/>
-                <TranslateTransform/>
-            </TransformGroup>
-        </Grid.RenderTransform>
-        <DockPanel HorizontalAlignment="Left" Height="36" LastChildFill="False" Margin="0,0,0,-36" VerticalAlignment="Top" Width="660" RenderTransformOrigin="0.32,0.398">
-            <Button x:Name="Tweet" Content="Button" Height="35" VerticalAlignment="Top" Width="488"/>
-            <TextBox x:Name="Guess" Height="35" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-            <Image x:Name="Result" Height="35" VerticalAlignment="Top" Width="56" Source="question.png"/>
-        </DockPanel>
-    </Grid>
+             mc:Ignorable="d">
+    <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left">
+        <RichTextBox x:Name="Tweet" VerticalAlignment="Center" Width="850" HorizontalAlignment="Left"></RichTextBox>
+<!--        <Label x:Name="Tweet" Content="Button" VerticalAlignment="Center" Width="850" HorizontalAlignment="Left"/>-->
+        <TextBox x:Name="Guess" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center" Width="120"/>
+        <Image x:Name="Result" VerticalAlignment="Top" Width="56" Source="question.png"/>
+    </WrapPanel>
 </UserControl>
