@@ -76,7 +76,7 @@ namespace towerDefence
                     Console.WriteLine("");
                 }
                 var word = item.Replace("\"", "");
-                word = item.Replace("!", "");
+                word = replaceTrailingCharacters(word);
                 if (word.StartsWith("rt",true,CultureInfo.CurrentCulture))
                 {
                     continue;
@@ -121,6 +121,11 @@ namespace towerDefence
                 
             }
             return new AnalysedSentence(tweet,analysedWords,attage,linkiness,hashQuotient);
+        }
+
+        private string replaceTrailingCharacters(string original)
+        {
+            return original.TrimEnd(new[] {'!', '?', ';', ':'});
         }
 
         private bool IsException(string item)
