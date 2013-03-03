@@ -22,7 +22,7 @@
 
     <Grid>
         <WrapPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-            <TextBox x:Name="chooseTopic" MinWidth="200" HorizontalAlignment="Stretch"/>
+            <TextBox x:Name="chooseTopic" Text="#OperationMakeBieberSmile" MinWidth="200" HorizontalAlignment="Stretch"/>
             <Label x:Name="scoreLabel" MaxWidth="200"/>
         </WrapPanel>
         <DockPanel LastChildFill="False" Dock="Top" VerticalAlignment="Stretch" Margin="0,30,0,0">
