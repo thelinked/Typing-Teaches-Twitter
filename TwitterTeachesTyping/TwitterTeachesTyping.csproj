@@ -36,14 +36,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MahApps.Metro">
-      <HintPath>..\towerDefence\packages\MahApps.Metro.0.10.1.29-ALPHA\lib\net40\MahApps.Metro.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.0.10.0.1\lib\net40\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="NHunspell">
+      <HintPath>..\packages\NHunspell.1.0.0\lib\net\NHunspell.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity">
-      <HintPath>..\towerDefence\packages\MahApps.Metro.0.10.1.29-ALPHA\lib\net40\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.0.10.0.1\lib\net40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -104,7 +107,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\towerDefence\AnalysisLibs\AnalysisLibs.csproj">
+    <ProjectReference Include="..\AnalysisLibs\AnalysisLibs.csproj">
       <Project>{56598857-8796-451d-bcfb-c04e5183ff08}</Project>
       <Name>AnalysisLibs</Name>
     </ProjectReference>
@@ -120,6 +123,9 @@
     <Resource Include="question.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /s /y "$(SolutionDir)packages\NHunspell.1.0.0\native\*.*" "$(TargetDir)"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

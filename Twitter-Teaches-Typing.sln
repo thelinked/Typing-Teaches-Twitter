@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterTestApp", "TwitterTestApp\TwitterTestApp.csproj", "{55768A31-42DB-4376-9401-C7E93235F880}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpellCheckTestApp", "SpellCheckTestApp\SpellCheckTestApp.csproj", "{6021B293-6107-4327-8D4E-5FDB5033EF86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterTeachesTyping", "TwitterTeachesTyping\TwitterTeachesTyping.csproj", "{44A51516-A9A2-4195-B30A-86BCCC291BE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalysisLibs", "AnalysisLibs\AnalysisLibs.csproj", "{56598857-8796-451D-BCFB-C04E5183FF08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalysisLibsUnitTests", "AnalysisLibsUnitTests\AnalysisLibsUnitTests.csproj", "{E8228169-AE5B-4CF8-A2FE-F29998C52EA4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{55768A31-42DB-4376-9401-C7E93235F880}.Debug|x86.ActiveCfg = Debug|x86
+		{55768A31-42DB-4376-9401-C7E93235F880}.Debug|x86.Build.0 = Debug|x86
+		{55768A31-42DB-4376-9401-C7E93235F880}.Release|x86.ActiveCfg = Release|x86
+		{55768A31-42DB-4376-9401-C7E93235F880}.Release|x86.Build.0 = Release|x86
+		{6021B293-6107-4327-8D4E-5FDB5033EF86}.Debug|x86.ActiveCfg = Debug|x86
+		{6021B293-6107-4327-8D4E-5FDB5033EF86}.Debug|x86.Build.0 = Debug|x86
+		{6021B293-6107-4327-8D4E-5FDB5033EF86}.Release|x86.ActiveCfg = Release|x86
+		{6021B293-6107-4327-8D4E-5FDB5033EF86}.Release|x86.Build.0 = Release|x86
+		{44A51516-A9A2-4195-B30A-86BCCC291BE6}.Debug|x86.ActiveCfg = Debug|x86
+		{44A51516-A9A2-4195-B30A-86BCCC291BE6}.Debug|x86.Build.0 = Debug|x86
+		{44A51516-A9A2-4195-B30A-86BCCC291BE6}.Release|x86.ActiveCfg = Release|x86
+		{44A51516-A9A2-4195-B30A-86BCCC291BE6}.Release|x86.Build.0 = Release|x86
+		{56598857-8796-451D-BCFB-C04E5183FF08}.Debug|x86.ActiveCfg = Debug|x86
+		{56598857-8796-451D-BCFB-C04E5183FF08}.Debug|x86.Build.0 = Debug|x86
+		{56598857-8796-451D-BCFB-C04E5183FF08}.Release|x86.ActiveCfg = Release|Any CPU
+		{E8228169-AE5B-4CF8-A2FE-F29998C52EA4}.Debug|x86.ActiveCfg = Debug|x86
+		{E8228169-AE5B-4CF8-A2FE-F29998C52EA4}.Debug|x86.Build.0 = Debug|x86
+		{E8228169-AE5B-4CF8-A2FE-F29998C52EA4}.Release|x86.ActiveCfg = Release|x86
+		{E8228169-AE5B-4CF8-A2FE-F29998C52EA4}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

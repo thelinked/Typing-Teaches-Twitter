@@ -31,11 +31,18 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.5\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NHunspell">
-      <HintPath>..\towerDefence\packages\NHunspell.1.0.0\lib\net\NHunspell.dll</HintPath>
+      <HintPath>..\packages\NHunspell.1.0.0\lib\net\NHunspell.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>..\towerDefence\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -59,12 +66,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\towerDefence\AnalysisLibs\AnalysisLibs.csproj">
+    <ProjectReference Include="..\AnalysisLibs\AnalysisLibs.csproj">
       <Project>{56598857-8796-451D-BCFB-C04E5183FF08}</Project>
       <Name>AnalysisLibs</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /s /y "$(SolutionDir)packages\NHunspell.1.0.0\native\*.*" "$(TargetDir)"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

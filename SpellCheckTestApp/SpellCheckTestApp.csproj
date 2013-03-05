@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NHunspell">
-      <HintPath>..\towerDefence\packages\NHunspell.1.0.0\lib\net\NHunspell.dll</HintPath>
+      <HintPath>..\packages\NHunspell.1.0.0\lib\net\NHunspell.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
